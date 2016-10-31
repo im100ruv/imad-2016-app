@@ -105,7 +105,7 @@ app.get('/ui/main.js', function (req, res) {
 
 
 var counter = 0;
-app.get('/counter', function (req, res) {  // counter via url endpoint
+app.get('/counter', function (req, res) {  // counter via url (or API) endpoint
   counter = counter + 1;
   res.send(counter.toString());
 });
