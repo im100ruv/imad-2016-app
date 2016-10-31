@@ -105,15 +105,15 @@ app.get('/ui/main.js', function (req, res) {
 
 
 var counter = 0;
-app.get('/counter', function (req, res) {
+app.get('/counter', function (req, res) {  // counter via url endpoint
   counter = counter + 1;
   res.send(counter.toString());
 });
 
 var names = [];
-app.get('/submit-name/:name', function(req, res) {
+app.get('/submit-name', function(req, res) {  //URL: /submit-name?name=xxxx
 	//Get the name from the request
-	var name = req.params.name;
+	var name = req.query.name;
 
 	names.push(name);
 	//JSON: JavaScript Object Notation
