@@ -5,20 +5,49 @@ var path = require('path');
 var app = express();
 app.use(morgan('combined'));
 
-
-var articleOne = {
-	title: 'Article One | Saurabh Karna',
-	heading: 'Article One',
-	date: 'Oct 28, 2016',
-	content: `
-		<p>
-			This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
-		</p>
-		<p>
-			This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
-		</p><p>
-			This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
-		</p>`
+var articles = {
+	'article-one': {
+		title: 'Article One | Saurabh Karna',
+		heading: 'Article One',
+		date: 'Oct 28, 2016',
+		content: `
+				<p>
+					This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
+				</p>
+				<p>
+					This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
+				</p><p>
+					This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
+				</p>`
+	},
+	'article-two': {
+		title: 'Article Two | Saurabh Karna',
+		heading: 'Article Two',
+		date: 'Oct 29, 2016',
+		content: `
+				<p>
+					This is the second content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
+				</p>
+				<p>
+					This is the second content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
+				</p><p>
+					This is the second content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
+				</p>`
+	},
+	'article-three': {
+		title: 'Article Three | Saurabh Karna',
+		heading: 'Article Three',
+		date: 'Oct 30, 2016',
+		content: `
+				<p>
+					This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
+				</p>
+				<p>
+					This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
+				</p><p>
+					This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
+				</p>`
+	}
 };
 
 function createTemplate (data) {
@@ -70,16 +99,11 @@ app.get('/ui/madi.png', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'madi.png'));
 });
 
-app.get('/article-one', function (req, res) {
-  res.send(createTemplate(articleOne));
-});
-
-app.get('/article-two', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'article-two.html'));
-});
-
-app.get('/article-three', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'article-three.html'));
+app.get('/:articleName', function (req, res) {
+	//articleName == article-one
+	//articles[articleName] == {} content object for article-one
+	var articleName = req.params.articleName;
+  res.send(createTemplate(articles[articleName]));
 });
 
 
