@@ -14,51 +14,6 @@ var config = {
 var app = express();
 app.use(morgan('combined'));
 
-var articles = {
-	'article-one': {
-		title: 'Article One | Saurabh Karna',
-		heading: 'Article One',
-		date: 'Oct 28, 2016',
-		content: `
-				<p>
-					This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
-				</p>
-				<p>
-					This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
-				</p><p>
-					This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
-				</p>`
-	},
-	'article-two': {
-		title: 'Article Two | Saurabh Karna',
-		heading: 'Article Two',
-		date: 'Oct 29, 2016',
-		content: `
-				<p>
-					This is the second content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
-				</p>
-				<p>
-					This is the second content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
-				</p><p>
-					This is the second content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
-				</p>`
-	},
-	'article-three': {
-		title: 'Article Three | Saurabh Karna',
-		heading: 'Article Three',
-		date: 'Oct 30, 2016',
-		content: `
-				<p>
-					This is the third content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
-				</p>
-				<p>
-					This is the third content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
-				</p><p>
-					This is the third content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
-				</p>`
-	}
-};
-
 function createTemplate (data) {
 	var title = data.title;
 	var date = data.date;
