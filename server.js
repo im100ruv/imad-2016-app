@@ -1,6 +1,15 @@
 var express = require('express');
 var morgan = require('morgan');
 var path = require('path');
+var Pool = require('pg').Pool;
+
+var config = {
+  	user: 'im100ruv',
+  	database: 'im100ruv',
+  	host: 'db.imad.hasura-app.io',
+  	port: '5432',
+  	password: process.env.DB_PASSWORD
+};
 
 var app = express();
 app.use(morgan('combined'));
@@ -40,12 +49,12 @@ var articles = {
 		date: 'Oct 30, 2016',
 		content: `
 				<p>
-					This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
+					This is the third content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
 				</p>
 				<p>
-					This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
+					This is the third content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
 				</p><p>
-					This is the first content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
+					This is the third content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. This is the content. 
 				</p>`
 	}
 };
@@ -57,31 +66,31 @@ function createTemplate (data) {
 	var content = data.content;
 	var htmlTemplate = `
 		<html>
-		<head>
-			<title>
-				${title}
-			</title>
-			<meta name="viewport" content="width=device-width, initial-scale=1">
-			<link href="/ui/style.css" rel="stylesheet" />
-		</head>
-		<body>
-			<div class="container">
-				<div>
-					<a href="/">Home</a>
+			<head>
+				<title>
+					${title}
+				</title>
+				<meta name="viewport" content="width=device-width, initial-scale=1">
+				<link href="/ui/style.css" rel="stylesheet" />
+			</head>
+			<body>
+				<div class="container">
+					<div>
+						<a href="/">Home</a>
+					</div>
+					<hr/>
+					<h3>
+						${heading}
+					</h3>
+					<div>
+						${date.toDateString()}
+					</div>
+					<div>
+						${content}
+					</div>
 				</div>
-				<hr/>
-				<h3>
-					${heading}
-				</h3>
-				<div>
-					${date}
-				</div>
-				<div>
-					${content}
-				</div>
-			</div>
-		</body>
-	</html>
+			</body>
+		</html>
 	`;
 	return htmlTemplate;
 }
@@ -120,11 +129,40 @@ app.get('/submit-name', function(req, res) {  //URL: /submit-name?name=xxxx
 	res.send(JSON.stringify(names));
 });
 
-app.get('/:articleName', function (req, res) {
-	//articleName == article-one
-	//articles[articleName] == {} content object for article-one
-	var articleName = req.params.articleName;
-  res.send(createTemplate(articles[articleName]));
+var pool = new Pool(config);
+//Test the working of database
+//this code is not required
+app.get('/test-db', function (req, res) {
+	//make a select request
+	//return a response whth the results
+
+	//testing the query on our test table
+	pool.query('SELECT * FROM test', function (err, result) {
+		if (err) {
+			res.status(500).send(err.toString());
+		} else {
+			res.send(JSON.stringify(result.rows));
+		}
+	});
+});
+
+app.get('/articles/:articleName', function (req, res) {
+	
+	//SELECT * FROM article WHERE title = 'article-one'
+	//However this is prone to  SQL injection attack.
+	//SELECT * FROM article WHERE title = ''; DELETE WHERE a = 'asdf'
+	pool.query("SELECT * FROM article WHERE title = '" + req.params.articleName + "'", function (err, result) {
+		if (err) {
+			res.status(500).send(err.toString());
+		} else {
+			if (result.rows.length === 0) {
+				res.status(404).send('Article not found');
+			} else {
+				var articleData = result.rows[0];
+  				res.send(createTemplate(articleData));
+			}
+		}
+	});
 });
 
 

@@ -7,8 +7,9 @@ Steps to run application
 
 1)Make sure you have node installed on your system
 2)Open command line to root of the project directory
-3)Run command :  npm install gulp -g
-4)Run command :  npm install gulp --save
+3)Run command :  npm install gulp --save
+4)Run command :  npm install gulp -g
 5)Run commadn :  npm install gulp-nodemon --save
-6)Run 'gulp' in node.js command prompt
-7)At browser to see home page type : http://localhost:3000/
+6)You will also need to create or save the gulpfile.js in your project root directory.
+7)Run 'gulp' in node.js command prompt
+8)At browser to see home page type : http://localhost:3000/
